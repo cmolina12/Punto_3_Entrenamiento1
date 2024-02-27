@@ -118,3 +118,4 @@ for c in cultivos:
 print("Costo total: ", pl.value(modelo.objective))
 
 #gdfgdf
+###
