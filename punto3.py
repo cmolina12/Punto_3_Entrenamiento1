@@ -66,11 +66,11 @@ for c in cultivos:
     print(f"Para el cultivo {c} se deben utilizar:")
     for r in recursos:
         print(f"{round(x[c][r].varValue,2)} kg de {r}")
-    total_mix = pl.lpSum([x[c][r].varValue for r in recursos])
+
     print("")
     for n in nutrientes:
-        total_nutrient = pl.lpSum([(x[c][r].varValue * composicion[r][n]) for r in recursos])   
-        print(f"El porcentaje de {n} en la mezcla final es: {round(pl.value(total_nutrient / total_mix),2)}%")
+        total_nutrient = pl.lpSum([(x[c][r] * (composicion[r][n]*0.01)) for r in recursos])
+        print(f"El porcentaje de {n} en la mezcla final es: {round(pl.value((total_nutrient / total_mezcla)*100),2)}%")
     print("\n")
 
 print(f"El costo total es: ${round(pl.value(modelo.objective),2)}")
