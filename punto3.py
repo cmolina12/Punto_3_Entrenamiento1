@@ -76,4 +76,24 @@ for c in cultivos:
 
 print(f"El costo total es: ${round(pl.value(modelo.objective),2)}")
 
+#Grafica 
+
+#Se grafica la cantidad de cada recurso que se debe utilizar para cada cultivo
+for r in recursos:
+    plt.bar(cultivos, [x[c][r].varValue for c in cultivos], label=r)
+plt.title("Cantidad de cada recurso que se debe utilizar para cada cultivo")
+plt.xlabel("Cultivo")
+plt.ylabel("Cantidad (kg)")
+plt.legend()
+plt.show()
+
+#Se grafica el porcentaje de cada nutriente en la mezcla final
+for n in nutrientes:
+    plt.bar(cultivos, [pl.value(pl.lpSum([(x[c][r].varValue * composicion[r][n])/100 for r in recursos]) / pl.value(pl.lpSum([x[c][r].varValue for r in recursos])) * 100) for c in cultivos], label=n)
+plt.title("Porcentaje de cada nutriente en la mezcla final")
+plt.xlabel("Cultivo")  
+plt.ylabel("Porcentaje (%)")
+plt.legend()
+plt.show()
+
 
