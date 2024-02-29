@@ -2,8 +2,6 @@
 import pulp as pl
 import matplotlib.pyplot as plt
 
-import pulp as pl
-
 # Conjuntos
 cultivos = ["LB", "TSA", "MRS", "SDA"]  
 nutrientes = ["Agar", "Levadura", "Peptona", "NaCl", "Fosfato"] 
