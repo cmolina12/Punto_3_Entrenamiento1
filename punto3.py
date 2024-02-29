@@ -32,6 +32,8 @@ composicion = {"Fosfato": {"Agar": 0, "Levadura": 0, "Peptona": 0, "NaCl": 0, "F
                "Extracto de Levadura": {"Agar": 0, "Levadura": 76, "Peptona": 0, "NaCl": 13, "Fosfato": 0},
                "Agar": {"Agar": 84, "Levadura": 0, "Peptona": 0, "NaCl": 5, "Fosfato": 0}} #Composicion de cada recurso
 
+total_mezcla = 300 #Cantidad total de mezcla
+
 modelo = pl.LpProblem("Minimizar", pl.LpMinimize)
 
 # Variables
@@ -53,11 +55,10 @@ for c in cultivos: #Para cada cultivo
 #Restricciones de nutrientes
 
 for c in cultivos: #Para cada cultivo
-    total_mix = pl.lpSum([x[c][r] for r in recursos]) #Cantidad total de mezcla
     for n in nutrientes: #Para cada nutriente
         total_nutrient = pl.lpSum([(x[c][r] * composicion[r][n]) for r in recursos]) #Cantidad total de nutriente en la mezcla
-        modelo += total_nutrient >= minimo[c][n] * total_mix #Restriccion minima, el porcentaje de nutriente en la mezcla debe ser mayor o igual al minimo
-        modelo += total_nutrient <= maximo[c][n] * total_mix #Restriccion maxima, el porcentaje de nutriente en la mezcla debe ser menor o igual al maximo
+        modelo += total_nutrient >= minimo[c][n] * total_mezcla #Restriccion minima, el porcentaje de nutriente en la mezcla debe ser mayor o igual al minimo
+        modelo += total_nutrient <= maximo[c][n] * total_mezcla #Restriccion maxima, el porcentaje de nutriente en la mezcla debe ser menor o igual al maximo
 #Imprimir
 modelo.solve()
 
