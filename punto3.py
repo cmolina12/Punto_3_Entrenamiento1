@@ -134,9 +134,9 @@ plt.xticks(rotation=35) #Se rota el nombre de los recursos para que no se superp
 plt.ylim(0,max(heights)*1.2) #Se ajusta el espacio para que no se superpongan las etiquetas
 plt.show() #Se muestra la grafica
 
-    #Grafica de nutrientes para cada cultivo
+#Grafica de nutrientes para cada cultivo
 
-#Grafica de nutrientes para el cultivo LB
+#Grafica de nutrientes
 
 for cultivo in cultivos:
     porcentajes = []
