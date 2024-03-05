@@ -138,63 +138,25 @@ plt.show() #Se muestra la grafica
 
 #Grafica de nutrientes para el cultivo LB
 
-heights = [pl.value(pl.lpSum([(x["LB"][r].varValue * composicion[r][n]) for r in recursos]) / total_mezcla) for n in nutrientes] #Se obtiene el porcentaje de cada nutriente en la mezcla final para el cultivo LB
-bars = plt.bar(nutrientes, heights, color="blue", label="LB", alpha=0.5) #Se grafica el porcentaje de cada nutriente en la mezcla final para el cultivo LB
+for cultivo in cultivos:
+    porcentajes = []
+    for nutriente in nutrientes:
+        porcentaje = pl.value(pl.lpSum([(x[cultivo][recurso].varValue * composicion[recurso][nutriente]) for recurso in recursos]) / total_mezcla)
+        porcentajes.append(porcentaje)
+    
+    total = sum(porcentajes)
+    residuales = 100 - total
 
-for bar, height in zip(bars, heights):
-    plt.text(bar.get_x() + bar.get_width() / 2, height, round(height,2), ha='center', va='bottom') #Se coloca el valor del porcentaje de cada nutriente en la mezcla final para el cultivo LB
-plt.subplots_adjust(bottom=0.3) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.title("Porcentaje de cada nutriente en la mezcla final para el cultivo LB") #Se coloca el titulo
-plt.xlabel("Nutriente") #Se coloca el nombre del eje x
-plt.ylabel("Porcentaje (%)") #Se coloca el nombre del eje y
-plt.xticks(rotation=35) #Se rota el nombre de los nutrientes para que no se superpongan
-plt.ylim(0,max(heights)*1.2) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.show() #Se muestra la grafica
+    etiquetas = nutrientes.copy()
+    etiquetas.append('Residuales')
+    porcentajes.append(residuales)
 
-#Grafica de nutrientes para el cultivo TSA
+    etiquetas_sin_cero = [etiqueta if porcentaje != 0 else '' for etiqueta, porcentaje in zip(etiquetas, porcentajes)]
+    fig, ax = plt.subplots()
+    ax.pie(porcentajes, labels=etiquetas_sin_cero, autopct=lambda p: f'{p:.1f}%' if p != 0 else '', startangle=90)
 
-heights = [pl.value(pl.lpSum([(x["TSA"][r].varValue * composicion[r][n]) for r in recursos]) / total_mezcla) for n in nutrientes] #Se obtiene el porcentaje de cada nutriente en la mezcla final para el cultivo TSA
-bars = plt.bar(nutrientes, heights, color="red", label="TSA", alpha=0.5) #Se grafica el porcentaje de cada nutriente en la mezcla final para el cultivo TSA
+    ax.axis('equal')
 
-for bar, height in zip(bars, heights):
-    plt.text(bar.get_x() + bar.get_width() / 2, height, round(height,2), ha='center', va='bottom') #Se coloca el valor del porcentaje de cada nutriente en la mezcla final para el cultivo TSA
-plt.subplots_adjust(bottom=0.3) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.title("Porcentaje de cada nutriente en la mezcla final para el cultivo TSA") #Se coloca el titulo
-plt.xlabel("Nutriente") #Se coloca el nombre del eje x
-plt.ylabel("Porcentaje (%)") #Se coloca el nombre del eje y
-plt.xticks(rotation=35) #Se rota el nombre de los nutrientes para que no se superpongan
-plt.ylim(0,max(heights)*1.2) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.show() #Se muestra la grafica
-
-#Grafica de nutrientes para el cultivo MRS
-
-heights = [pl.value(pl.lpSum([(x["MRS"][r].varValue * composicion[r][n]) for r in recursos]) / total_mezcla) for n in nutrientes] #Se obtiene el porcentaje de cada nutriente en la mezcla final para el cultivo MRS
-bars = plt.bar(nutrientes, heights, color="green", label="MRS", alpha=0.5) #Se grafica el porcentaje de cada nutriente en la mezcla final para el cultivo MRS
-
-for bar, height in zip(bars, heights):
-    plt.text(bar.get_x() + bar.get_width() / 2, height, round(height,2), ha='center', va='bottom') #Se coloca el valor del porcentaje de cada nutriente en la mezcla final para el cultivo MRS
-plt.subplots_adjust(bottom=0.3) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.title("Porcentaje de cada nutriente en la mezcla final para el cultivo MRS") #Se coloca el titulo
-plt.xlabel("Nutriente") #Se coloca el nombre del eje x
-plt.ylabel("Porcentaje (%)") #Se coloca el nombre del eje y
-plt.xticks(rotation=35) #Se rota el nombre de los nutrientes para que no se superpongan
-plt.ylim(0,max(heights)*1.2) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.show() #Se muestra la grafica
-
-#Grafica de nutrientes para el cultivo SDA
-
-heights = [pl.value(pl.lpSum([(x["SDA"][r].varValue * composicion[r][n]) for r in recursos]) / total_mezcla) for n in nutrientes] #Se obtiene el porcentaje de cada nutriente en la mezcla final para el cultivo SDA
-bars = plt.bar(nutrientes, heights, color="orange", label="SDA", alpha=0.5) #Se grafica el porcentaje de cada nutriente en la mezcla final para el cultivo SDA
-
-for bar, height in zip(bars, heights):
-    plt.text(bar.get_x() + bar.get_width() / 2, height, round(height,2), ha='center', va='bottom') #Se coloca el valor del porcentaje de cada nutriente en la mezcla final para el cultivo SDA
-plt.subplots_adjust(bottom=0.3) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.title("Porcentaje de cada nutriente en la mezcla final para el cultivo SDA") #Se coloca el titulo
-plt.xlabel("Nutriente") #Se coloca el nombre del eje x
-plt.ylabel("Porcentaje (%)") #Se coloca el nombre del eje y
-plt.xticks(rotation=35) #Se rota el nombre de los nutrientes para que no se superpongan
-plt.ylim(0,max(heights)*1.2) #Se ajusta el espacio para que no se superpongan las etiquetas
-plt.show() #Se muestra la grafica
-
-
+    plt.title(f"Porcentaje de cada nutriente y materiales residuales en la mezcla final para el cultivo {cultivo}")
+    plt.show()
 
